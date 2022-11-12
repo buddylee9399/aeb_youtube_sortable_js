@@ -90,12 +90,18 @@ export default class extends Controller {
 - update task controller
 ```
 before_action :set_task, only: %i[ show edit update destroy move ]
+  def index
+    @tasks = Task.all.order(position: :asc)
+  end
   def move    
     # debugger
-    @task.insert_at(params[:resource][:position])
+    @category.insert_at(cat_move_params[:position])
     head :ok
   end
-params.require(:task).permit(:name, :position)
+  private
+    def cat_move_params
+      params.require(:resource).permit(:id, :position)
+    end
 ```
 
 - update task index
@@ -127,12 +133,13 @@ import Sortable from 'sortablejs'
 // Connects to data-controller="drag"
 export default class extends Controller {
   connect() {
-    // console.log('im in the drag controller')
-    // console.log("Sortable: ", Sortable);
-    var el = document.getElementById('tasks');
+    // console.log('im in sort controller')
+    // var el = document.getElementById('accordionGategory');
     // console.log(el);
-    var sortable = Sortable.create(el, {
+    // var sortable = Sortable.create(el, {
+    this.sortable = Sortable.create(this.element, {
       onEnd: this.end.bind(this),
+      handle: '.handle',
       animation: 400
     });    
   }
@@ -145,7 +152,7 @@ export default class extends Controller {
     // console.log("id and position: ", resourceID, newPosition)
     // let data = new FormData()
     // data.append("position", event.newIndex + 1)
-    let taskUrl = this.data.get("url").replace(":id", resourceID)
+    let resourceUrl = this.data.get("url").replace(":id", resourceID)
     let data = JSON.stringify({
       resource: {
         id: resourceID,
@@ -153,7 +160,7 @@ export default class extends Controller {
       },
     });    
     console.log("Data is: ", data)
-    fetch(taskUrl, {
+    fetch(resourceUrl, {
       method: "PATCH",
       credentials: "same-origin",
       headers: {
