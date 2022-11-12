@@ -1,0 +1,5 @@
+<div data-id="<%= task.id %>" class="task">
+  <%= link_to task.name, task %> | 
+  <%= "Position: #{task.position}" %> |
+  <%= link_to "Delete task", task_path(task), data: { turbo_method: "delete", turbo_confirm: "Are you sure?" } %>
+</div>
