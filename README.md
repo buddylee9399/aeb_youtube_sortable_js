@@ -1,5 +1,5 @@
 # What I did
-
+- from this go rails tutorial: https://www.youtube.com/watch?v=r884jAqAbHY
 - Heres the github of sortablejs: https://github.com/SortableJS/Sortable
 - http://sortablejs.github.io/Sortable/
 - create task scaffold name position:integer
